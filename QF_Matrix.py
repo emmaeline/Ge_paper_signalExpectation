@@ -223,8 +223,22 @@ plt.legend()
 plt.title('Gaussian Distribution of Eee for Different E_(nuclear recoil) Values')
 plt.show()
 
+
 # Convert the df_GaussianPDF into a numpy array, without the row and column labels
 gaussianPDF_arr = df_GaussianPDF.values
 
+# print the shape of the array
+print('Shape of the array:', gaussianPDF_arr.shape)
+
+# remove the last column which is empty
+gaussianPDF_arr = gaussianPDF_arr[:, :-1]
+
+# print the shape of the array
+print('Shape of the array (adjusted):', gaussianPDF_arr.shape)
+
 # save the array as a .npy file
 np.save('quenchingMatrix.npy', gaussianPDF_arr)
+
+# save the array as a .txt file
+np.savetxt('quenchingMatrix_test.txt', gaussianPDF_arr)
+
