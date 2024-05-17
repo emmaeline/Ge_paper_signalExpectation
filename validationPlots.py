@@ -29,6 +29,15 @@ plt.legend()
 # plt.show()
 
 
+# plot a heatmap of the EDER matrix
+plt.figure(figsize=(10, 6))
+plt.imshow(ederMatrix_21, aspect='auto', norm=mcolors.LogNorm())
+plt.colorbar()
+plt.xlabel('E_electron equivalent (kevee) * 10')
+plt.ylabel('E_electron equivalent (keVee) * 10')
+plt.title('Ge-1721 energy-dependent energy resolution matrix')
+plt.show()
+
 
 # *************** Check of unit conversion ***************
 # read in the sns_diff_rates file
@@ -115,3 +124,4 @@ plt.xlabel('E_nuclear recoil (kev_nr) * 10')
 plt.ylabel('E_electron equivalent (keVee) * 10')
 plt.title('Ge Quenching matrix (including quenching smearing factor)')
 plt.show()
+
