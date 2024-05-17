@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 from ederMatrixGenerator_paper import ederMatrix
 from FF_quencher_eder_paper import FF_quencher_eder
 
@@ -25,7 +26,7 @@ plt.xlabel('Energy (keV)')
 plt.ylabel('Probability Density')
 plt.title('Energy dependent energy resolution "smearing" (Detector 21)')
 plt.legend()
-plt.show()
+# plt.show()
 
 
 
@@ -61,7 +62,7 @@ plt.ylabel('Counts / 0.1 keV_nr')
 plt.title('Raw DukeCEvNS spectrum')
 # show a grid
 plt.grid()
-plt.show()
+# plt.show()
 
 
 # *************** Check of form factor calculation ***************
@@ -98,4 +99,19 @@ plt.xlabel('Energy (keV_nr)')
 plt.ylabel('Counts / 0.1 keV_nr')
 plt.title('DukeCEvNS spectrum FF comparison')
 plt.legend()
+# plt.show()
+
+
+
+# Plotting the values in the quenching matrix
+# read in the quenchingMatrix.npy file
+quenchingMatrix = np.load('quenchingMatrix.npy')
+
+# plot a heatmap of the quenching matrix
+plt.figure(figsize=(10, 6))
+plt.imshow(quenchingMatrix, aspect='auto', norm=mcolors.LogNorm())
+plt.colorbar()
+plt.xlabel('E_nuclear recoil (kev_nr) * 10')
+plt.ylabel('E_electron equivalent (keVee) * 10')
+plt.title('Ge Quenching matrix (including quenching smearing factor)')
 plt.show()

@@ -47,6 +47,11 @@ ROI_high = 85       # 8.6 keV (because non-inclusive)
 highROI_low = 105   # 10.6 keV
 highROI_high = 200  # 20.1 keV (because non-inclusive)
 
+print("the energy value at index ", ROI_low, " is ", energy[ROI_low])
+print("the energy value at index ", ROI_high, " is ", energy[ROI_high])
+print("the energy value at index ", highROI_low, " is ", energy[highROI_low])
+print("the energy value at index ", highROI_high, " is ", energy[highROI_high])
+
 # Construct a total counts for KN and Helm
 
 totCounts_KN = ge21Counts_KN + ge23Counts_KN + ge25Counts_KN + ge26Counts_KN + ge28Counts_KN
@@ -75,32 +80,49 @@ ge26High_counts_KN = np.sum(ge26Counts_KN[highROI_low:highROI_high])
 ge28High_counts_KN = np.sum(ge28Counts_KN[highROI_low:highROI_high])
 totCountsHigh_KN = np.sum(totCounts_KN[highROI_low:highROI_high])
 
+totcountsAnalysisROI = totCountsROI_KN + totCountsHigh_KN
+
+print(f"Total counts in the ROI 1.5-8.5 + 10.6-20 keVee for KN: {totcountsAnalysisROI:.5f}")
+
+
+# Final plot
+plt.figure(figsize=(8,6))
+plt.hist(energy, bins=energy, weights=ge21Counts_KN, histtype = 'step', label=f'Ge21, {(ge21ROI_counts_KN + ge21High_counts_KN):.5f} counts')
+plt.hist(energy, bins=energy, weights=ge23Counts_KN, histtype = 'step', label=f'Ge23, {(ge23ROI_counts_KN + ge23High_counts_KN):.5f} counts')
+plt.hist(energy, bins=energy, weights=ge25Counts_KN, histtype = 'step', label=f'Ge25, {(ge25ROI_counts_KN + ge25High_counts_KN):.5f} counts')
+plt.hist(energy, bins=energy, weights=ge26Counts_KN, histtype = 'step', label=f'Ge26, {(ge26ROI_counts_KN + ge26High_counts_KN):.5f} counts')
+plt.hist(energy, bins=energy, weights=ge28Counts_KN, histtype = 'step', label=f'Ge28, {(ge28ROI_counts_KN + ge28High_counts_KN):.5f} counts')
+plt.xlim(0,20)
+plt.xlabel('Energy (keVee)')
+plt.ylabel(f'Counts / {energy_bins} keVee')
+plt.title(f'Ge-Mini Campaign 2 exposure-scaled CEvNS recoil spectra\n (k=0.157, Klein-Nystrand FF, Quenching-smearing, EDER, timing eff)\n ROI: 1.5-8.5 + 10.6-20.0 keVee. Total ROI counts: {totcountsAnalysisROI:.5f}')
+plt.legend()
 
 # Plot the spectrum 
-plt.figure(figsize=(8,6))
-plt.hist(energy, bins=energy, weights=ge21Counts_KN, histtype = 'step', label=f'Ge21, {ge21ROI_counts_KN:.5f} counts')
-plt.hist(energy, bins=energy, weights=ge23Counts_KN, histtype = 'step', label=f'Ge23, {ge23ROI_counts_KN:.5f} counts')
-plt.hist(energy, bins=energy, weights=ge25Counts_KN, histtype = 'step', label=f'Ge25, {ge25ROI_counts_KN:.5f} counts')
-plt.hist(energy, bins=energy, weights=ge26Counts_KN, histtype = 'step', label=f'Ge26, {ge26ROI_counts_KN:.5f} counts')
-plt.hist(energy, bins=energy, weights=ge28Counts_KN, histtype = 'step', label=f'Ge28, {ge28ROI_counts_KN:.5f} counts')
-plt.xlim(0,20)
-plt.xlabel('Energy (keVee)')
-plt.ylabel(f'Counts / {energy_bins} keVee')
-plt.title('Campaign 2 exposure-scaled CEvNS recoil spectra\n (k=0.157, Klein-Nystrand FF, counts from 1.5-8.5 keVee)')
-plt.legend()
-# plt.savefig(cwd + '/campaign2_recoilPlots/campaign2_CEvNS_KN_ROI_individual.png', dpi=600)
+# plt.figure(figsize=(8,6))
+# plt.hist(energy, bins=energy, weights=ge21Counts_KN, histtype = 'step', label=f'Ge21, {ge21ROI_counts_KN:.5f} counts')
+# plt.hist(energy, bins=energy, weights=ge23Counts_KN, histtype = 'step', label=f'Ge23, {ge23ROI_counts_KN:.5f} counts')
+# plt.hist(energy, bins=energy, weights=ge25Counts_KN, histtype = 'step', label=f'Ge25, {ge25ROI_counts_KN:.5f} counts')
+# plt.hist(energy, bins=energy, weights=ge26Counts_KN, histtype = 'step', label=f'Ge26, {ge26ROI_counts_KN:.5f} counts')
+# plt.hist(energy, bins=energy, weights=ge28Counts_KN, histtype = 'step', label=f'Ge28, {ge28ROI_counts_KN:.5f} counts')
+# plt.xlim(0,20)
+# plt.xlabel('Energy (keVee)')
+# plt.ylabel(f'Counts / {energy_bins} keVee')
+# plt.title('Campaign 2 exposure-scaled CEvNS recoil spectra\n (k=0.157, Klein-Nystrand FF, counts from 1.5-8.5 keVee)')
+# plt.legend()
+# # plt.savefig(cwd + '/campaign2_recoilPlots/campaign2_CEvNS_KN_ROI_individual.png', dpi=600)
 
-plt.figure(figsize=(8,6))
-plt.hist(energy, bins=energy, weights=ge21Counts_KN, histtype='step', label=f'Ge21, {ge21High_counts_KN:.5f} counts')
-plt.hist(energy, bins=energy, weights=ge23Counts_KN, histtype='step', label=f'Ge23, {ge23High_counts_KN:.5f} counts')
-plt.hist(energy, bins=energy, weights=ge25Counts_KN, histtype='step', label=f'Ge25, {ge25High_counts_KN:.5f} counts')
-plt.hist(energy, bins=energy, weights=ge26Counts_KN, histtype='step', label=f'Ge26, {ge26High_counts_KN:.5f} counts')
-plt.hist(energy, bins=energy, weights=ge28Counts_KN, histtype='step', label=f'Ge28, {ge28High_counts_KN:.5f} counts')
-plt.xlim(0,20)
-plt.xlabel('Energy (keVee)')
-plt.ylabel(f'Counts / {energy_bins} keVee')
-plt.title('Campaign 2 exposure-scaled CEvNS recoil spectra\n (k=0.157, Klein-Nystrand FF, counts from 10.6-20.0 keVee)')
-plt.legend()
+# plt.figure(figsize=(8,6))
+# plt.hist(energy, bins=energy, weights=ge21Counts_KN, histtype='step', label=f'Ge21, {ge21High_counts_KN:.5f} counts')
+# plt.hist(energy, bins=energy, weights=ge23Counts_KN, histtype='step', label=f'Ge23, {ge23High_counts_KN:.5f} counts')
+# plt.hist(energy, bins=energy, weights=ge25Counts_KN, histtype='step', label=f'Ge25, {ge25High_counts_KN:.5f} counts')
+# plt.hist(energy, bins=energy, weights=ge26Counts_KN, histtype='step', label=f'Ge26, {ge26High_counts_KN:.5f} counts')
+# plt.hist(energy, bins=energy, weights=ge28Counts_KN, histtype='step', label=f'Ge28, {ge28High_counts_KN:.5f} counts')
+# plt.xlim(0,20)
+# plt.xlabel('Energy (keVee)')
+# plt.ylabel(f'Counts / {energy_bins} keVee')
+# plt.title('Campaign 2 exposure-scaled CEvNS recoil spectra\n (k=0.157, Klein-Nystrand FF, counts from 10.6-20.0 keVee)')
+# plt.legend()
 # plt.savefig(cwd + '/campaign2_recoilPlots/campaign2_CEvNS_KN_HighE_individual.png', dpi=600)
 
 

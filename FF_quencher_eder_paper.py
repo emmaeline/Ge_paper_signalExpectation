@@ -57,8 +57,6 @@ def FF_quencher_eder(dataIn,detectorNumber,FF_model,mass,exposure):
     # Determine the FF model to use
     if FF_model == 'KN':
         FF_arr = FF_KleinNystrand(Q_arr)
-        # print length of FF_arr
-        print("Length of FF_arr: ", len(FF_arr))
     elif FF_model == 'Helm':
         FF_arr = FF_Helm(Q_arr)
 
@@ -87,18 +85,14 @@ def FF_quencher_eder(dataIn,detectorNumber,FF_model,mass,exposure):
 
     # ***** TIMING EFFICIENCY *****
     # Import the timing efficiency for the detector
-    timingEfficiency = np.load('timing_efficiencies/eff_interp_Ge' + str(detectorNumber) + '.npy')
+    timingEfficiency = np.load(f'timing_efficiencies/eff_interp_Ge{detectorNumber}.npy')
+    # print(f"file read in is eff_interp_Ge{detectorNumber}.npy")
 
 
 
     # ***** DUKE CEVNS SPECTRUM *****
-    # print length of dukecevnsSpec
-    print("Length of dukecevnsSpec: ", len(dukecevnsSpec))
+
     countsFF = dukecevnsSpec * FF_arr * FF_arr
-    # print length of countsFF
-    print("Length of countsFF: ", len(countsFF))
-    # print length of quenching matrix
-    print("Shape of quenchingMatrix: ", quenchingMatrix.shape)
     countsFFquenched = np.matmul(quenchingMatrix, countsFF)
     countsFFquenchedSmeared = np.matmul(ederSmearingMatrix, countsFFquenched)
     countsFFquenchedSmearedTiming = countsFFquenchedSmeared * timingEfficiency
@@ -106,4 +100,4 @@ def FF_quencher_eder(dataIn,detectorNumber,FF_model,mass,exposure):
     # scaling the counts to desired mass and exposure
     countsFFquenchedSmearedTiming = countsFFquenchedSmearedTiming * mass * exposure
 
-    return countsFFquenchedSmeared, energy
+    return countsFFquenchedSmearedTiming, energy
