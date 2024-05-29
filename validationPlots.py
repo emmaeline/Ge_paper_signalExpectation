@@ -5,39 +5,42 @@ from ederMatrixGenerator_paper import ederMatrix
 from FF_quencher_eder_paper import FF_quencher_eder
 
 # Generate the EDER matrix for detector 21
-detectorNumber = 21
-ederMatrix_21 = ederMatrix(detectorNumber)
+detectorNumber = 23
+ederMatrix_23 = ederMatrix(detectorNumber)
 
 #print the values in index 500 of the EDER matrix
-print(ederMatrix_21[500])
-print(ederMatrix_21[854])
+print(ederMatrix_23[500])
+print(ederMatrix_23[854])
 
 # generate an energy array for plotting purposes (0.1 to 85.5 keV in steps of 0.1 keV)
 energy = np.arange(0.1, 85.6, 0.1)
 
 # Plot the gaussian values for a variety of Erecoil values
 plt.figure(figsize=(10, 6))
-plt.plot(energy, ederMatrix_21[0], label='Erecoil = 0.1 keV')
-plt.plot(energy, ederMatrix_21[100], label='Erecoil = 10.1 keV')
-plt.plot(energy, ederMatrix_21[500], label='Erecoil = 50.1 keV')
-plt.plot(energy, ederMatrix_21[800], label='Erecoil = 80.1 keV')
-plt.plot(energy, ederMatrix_21[854], label='Erecoil = 85.5 keV')
+plt.plot(energy, ederMatrix_23[0], label='Erecoil = 0.1 keV')
+plt.plot(energy, ederMatrix_23[100], label='Erecoil = 10.1 keV')
+plt.plot(energy, ederMatrix_23[500], label='Erecoil = 50.1 keV')
+plt.plot(energy, ederMatrix_23[800], label='Erecoil = 80.1 keV')
+plt.plot(energy, ederMatrix_23[854], label='Erecoil = 85.5 keV')
 plt.xlabel('Energy (keV)')
 plt.ylabel('Probability Density')
-plt.title('Energy dependent energy resolution "smearing" (Detector 21)')
+plt.title('Energy dependent energy resolution "smearing" (Detector 23)')
 plt.legend()
 # plt.show()
 
 
 # plot a heatmap of the EDER matrix
 plt.figure(figsize=(10, 6))
-plt.imshow(ederMatrix_21, aspect='auto', norm=mcolors.LogNorm())
+plt.imshow(ederMatrix_23, aspect='auto', norm=mcolors.LogNorm())
 plt.colorbar()
 plt.xlabel('E_electron equivalent (kevee) * 10')
 plt.ylabel('E_electron equivalent (keVee) * 10')
 plt.title('Ge-1721 energy-dependent energy resolution matrix')
 plt.show()
 
+
+# Outpyt the eder matrix as a .npy file
+np.save('ederMatrix_23_forJose.npy', ederMatrix_23)
 
 # *************** Check of unit conversion ***************
 # read in the sns_diff_rates file
@@ -125,3 +128,6 @@ plt.ylabel('E_electron equivalent (keVee) * 10')
 plt.title('Ge Quenching matrix (including quenching smearing factor)')
 plt.show()
 
+# want to output the form factor squared vector as a .npy file
+FF_squared = FF_KN * FF_KN
+np.save('FF_squared_forJose.npy', FF_squared)
